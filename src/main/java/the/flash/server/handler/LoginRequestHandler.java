@@ -24,7 +24,13 @@ public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginReques
         }
 
         // 登录响应
-        ctx.channel().writeAndFlush(loginResponsePacket);
+        ctx.channel().writeAndFlush(loginResponsePacket).addListener(future -> {
+            if(future.isSuccess()){
+                System.out.println("server 登陆成功发送成功！");
+            }else{
+                System.out.println("server 登陆成功失败！");
+            }
+        });
     }
 
     private boolean valid(LoginRequestPacket loginRequestPacket) {
